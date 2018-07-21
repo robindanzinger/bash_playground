@@ -5,9 +5,33 @@ function equal {
 
   if [ "$expected" != "$actual" ]
   then
-    echo "ERROR"
-    echo "expected: $1. but got: $2"
-    echo $3
-    exit 1
+    throw_error "$expected is not equal to $actual"
   fi
+}
+
+# $1 folder $2 mode [not]
+function assert_folder_exists {
+  if [ $2 ] && [[ "$2" == "not" ]]
+  then 
+    assert "! -d $1" "folder $1 exists" 
+  else
+    assert "-d $1" "folder $1 doesn't exist"
+  fi
+}
+
+function assert_file_exists {
+  assert "-e $1" "file $1 doesn't exist"
+}
+
+function assert {
+  if test ! $1
+  then
+    throw_error "$2"
+  fi
+}
+
+function throw_error {
+  echo "ERROR"
+  echo "$1"
+  exit 1
 }
