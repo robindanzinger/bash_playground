@@ -1,38 +1,35 @@
-source ./utils.sh
+source ./lib/utils.sh
 
-cha_workdir=./src
-cha_testdir=./test
-cha_outputdir=./target/test
-
+cha_srcdir="./lib"
+cha_testdir="./test"
+cha_outputdir="./target/test"
 
 numberOfTests=0
 success=0
 error=0
 
-clean_folder cha_outputdir
-create_target_folder cha_outputdir
+clean_folder $cha_outputdir
+create_target_folder $cha_outputdir
 
-for cha_testfile in $(find_test_files $cha_testdir)
+# copy_src "$cha_srcdir" "${cha_outputdir}/${cha_srcdir}" 
+copy_src "$cha_testdir" "${cha_outputdir}" 
+
+for cha_testfile in $(find_test_files $cha_outputdir)
 do
-    echo 'Datei gefunden...'
-    echo $cha_testfile
-    # copy src folder to target/test
-    # alle functions mit test suchen
+  source $cha_testfile
+    for func in $(find_test_functions $cha_testfile)
+    do
 
-    # subshell öffnen
-    # assert lib reinladen 
-
-    # pro funktion
-    # try catch 
-    # #beforeTest Funktion suchen
-  
-    # try catch
-    # Funktion aufrufen
-  
-    # try catch 
-    # #afterTest Funktion suchen
-  
-    # ergebnis speichern
+     # execute in own process / relative paths are wrong
+     echo "execute func $func of file $cha_testfile"
+     # before methods?
+     # subshell öffnen
+     # assert lib reinladen
+     # try catch
+     eval "$func"
+     # after methods?
+     # ergebnis speichern
+    done 
 
 done
 
