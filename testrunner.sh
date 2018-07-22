@@ -4,6 +4,7 @@ cha_srcdir="./lib"
 cha_testdir="./test"
 cha_outputdir="./target/test"
 
+typeset -i numberOfTests success error
 numberOfTests=0
 success=0
 error=0
@@ -17,23 +18,32 @@ copy_src "$cha_testdir" "${cha_outputdir}"
 for cha_testfile in $(find_test_files $cha_outputdir)
 do
   source $cha_testfile
-  for func in $(find_test_functions $cha_testfile)
+  echo "-------------------------------------"
+  echo "START TESTFILE: $cha_testfile"
+  echo "-------------------------------------"
+  for test_func in $(find_test_functions $cha_testfile)
   do
+    numberOfTests+=1
     (
-
       cd ${cha_outputdir}
-      # execute in own process / relative paths are wrong
-      echo "execute func $func of file $cha_testfile"
+      echo " o $test_func"
       # before methods?
-      # subshell öffnen
       # assert lib reinladen
       # try catch
-      eval "$func"
+      eval "$test_func"
+# ergebnis holen???
       # after methods?
       # ergebnis speichern
+      echo ""
+      echo "" 
     )
-  done 
+  done
+  echo "END TESTFILE: $cha_testfile"
+  echo "" 
+  echo "" 
 done
 
-# report erzeugen
+echo "================================================"
+echo -e "Total: $numberOfTests \t success: $success \t error: $error"
+echo "================================================"
 # wenn error > 0 exit 1

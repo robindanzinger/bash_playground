@@ -1,10 +1,21 @@
 source ./lib/utils.sh
 source ./lib/assert.sh
 
+#@after
+
+#@before
+
 #@test
 function test_a {
-  cha_testfiles=$(find_test_files './find_test_files')
-  equal "${cha_testfiles}" "./find_test_files/file_a_test.sh ./find_test_files/subfolder/file_c_test.sh" "should find two files"
+  mkdir -p './tmp/subfolder'
+  touch './tmp/file_a_test.sh'
+  touch './tmp/subfolder/file_c_test.sh'
+
+  cha_testfiles=$(find_test_files './tmp')
+  
+  equal "${cha_testfiles}" "./tmp/file_a_test.sh ./tmp/subfolder/file_c_test.sh" "should find two files"
+  
+  clean_folder './tmp'
 }
 
 #@test

@@ -24,8 +24,10 @@ function assert_file_exists {
 }
 
 function assert {
-  if test ! $1
+  if test $1
   then
+    :
+  else
     throw_error "$2"
   fi
 }
