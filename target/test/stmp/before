@@ -1,6 +1,0 @@
-                      
-    #@before                 
-    function setup {          
-      $function_called+=1     
-    }                        
-  

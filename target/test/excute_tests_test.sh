@@ -3,8 +3,8 @@ source ./lib/assert.sh
 
 #@test
 function test_execute_before {
-  mkdir './stmp'
-  touch './stmp/before'
+  mkdir './tmp'
+  touch './tmp/before'
   
   let function_called=0
 
@@ -13,7 +13,7 @@ function test_execute_before {
     function setup {          
       $function_called+=1     
     }                        
-  '  > "./stmp/before"
+  '  > "./tmp/before"
 
   execute_before './tmp/before'
 

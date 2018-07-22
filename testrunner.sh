@@ -12,12 +12,14 @@ error=0
 clean_folder $cha_outputdir
 create_target_folder $cha_outputdir
 
-# copy_src "$cha_srcdir" "${cha_outputdir}/${cha_srcdir}" 
+copy_src "$cha_srcdir" "${cha_outputdir}/${cha_srcdir}" 
 copy_src "$cha_testdir" "${cha_outputdir}" 
 
 echo "chadobash 0.0.1"
 echo ""
-for cha_testfile in $(find_test_files $cha_outputdir)
+cd ${cha_outputdir}
+
+for cha_testfile in $(find_test_files './')
 do
   execute_tests $cha_testfile
 done
