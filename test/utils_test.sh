@@ -13,7 +13,7 @@ function test_find_test_files {
 
   cha_testfiles=$(find_test_files './tmp')
   
-  equal "${cha_testfiles}" "./tmp/file_a_test.sh ./tmp/subfolder/file_c_test.sh" "should find two files"
+  assert_equal "${cha_testfiles}" "./tmp/file_a_test.sh ./tmp/subfolder/file_c_test.sh" "should find two files"
   
   clean_folder './tmp'
 }
@@ -60,7 +60,7 @@ function test_copy_src {
 #@test
 function test_find_test_functions_in_file {
   tests=$(find_test_functions file_with_tests.txt)
-  equal "${tests}" "testname1 testname5" "should find two valid test declarations"
+  assert_equal "${tests}" "testname1 testname5" "should find two valid test declarations"
 }
 
 

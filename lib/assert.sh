@@ -1,5 +1,5 @@
 # equal
-function equal {
+function assert_equal {
   expected=$1
   actual=$2
 
