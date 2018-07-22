@@ -59,7 +59,7 @@ function test_copy_src {
 
 #@test
 function test_find_test_functions_in_file {
-  tests=$(find_test_functions file_with_tests.txt)
+  tests=$(find_test_functions "./test/file_with_tests.txt")
   assert_equal "${tests}" "testname1 testname5" "should find two valid test declarations"
 }
 

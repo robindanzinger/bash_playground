@@ -13,7 +13,7 @@ clean_folder $cha_outputdir
 create_target_folder $cha_outputdir
 
 copy_src "$cha_srcdir" "${cha_outputdir}/${cha_srcdir}" 
-copy_src "$cha_testdir" "${cha_outputdir}" 
+copy_src "$cha_testdir" "${cha_outputdir}/${cha_testdir}" 
 
 echo "chadobash 0.0.1"
 echo ""
@@ -34,4 +34,3 @@ then
 else
   exit 0
 fi
-# wenn error > 0 exit 1
