@@ -62,3 +62,5 @@ function test_find_test_functions_in_file {
   tests=$(find_test_functions file_with_tests.txt)
   equal "${tests}" "testname1 testname5" "should find two valid test declarations"
 }
+
+

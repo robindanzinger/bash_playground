@@ -22,20 +22,23 @@ function find_test_functions {
 }
 
 function execute_tests {
-  cha_testfile=$1
-  source $cha_testfile
+### log start
   echo " -------------------------------------"
   echo " START: $cha_testfile"
   echo " -------------------------------------"
+
+### run tests
+  cha_testfile=$1
+  source $cha_testfile
+
   for test_func in $(find_test_functions $cha_testfile)
   do
+    echo " o $test_func"
     numberOfTests+=1
     (
-      typeset -i cha_testresult
       cd ${cha_outputdir}
-      echo " o $test_func"
       do_execute_test $test_func
-      return $cha_testresult
+      return $?
     )
     cha_testresult=$?
     if (( $cha_testresult == 0 ))
@@ -44,8 +47,9 @@ function execute_tests {
     else
       error+=1
     fi
-#   
   done
+  
+### log result
   echo " -------------------------------------"
   echo " END"
   echo " -------------------------------------"
@@ -54,11 +58,11 @@ function execute_tests {
 }
 
 function do_execute_test {
+  typeset -i cha_testresul
   (
     execute_before
   )
   cha_testresult=$?
-
   # assert lib reinladen
   (
     eval "$test_func"
