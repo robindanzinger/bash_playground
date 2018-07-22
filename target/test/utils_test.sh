@@ -6,7 +6,7 @@ source ./lib/assert.sh
 #@before
 
 #@test
-function test_a {
+function test_find_test_files {
   mkdir -p './tmp/subfolder'
   touch './tmp/file_a_test.sh'
   touch './tmp/subfolder/file_c_test.sh'
@@ -19,13 +19,13 @@ function test_a {
 }
 
 #@test
-function test_b {
+function test_create_target_folder {
   create_target_folder './target/tmp'
   assert_folder_exists './target/tmp'
 }
 
 #@test
-function test_c {
+function given_folder_when_clean_folder_then_folder_will_be_deleted {
   mkdir './tmp'
   touch './tmp/foo'
   
@@ -37,13 +37,13 @@ function test_c {
 }
 
 #@test
-function test_c2 {
+function clean_folder_on_nonexistent_folder_nothing_happens {
   clean_folder './notexistent'
   assert_folder_exists './notexistent' not
 }
 
 #@test
-function test_d {
+function test_copy_src {
   mkdir -p './tmp/src/sub'
   touch './tmp/src/foo'
   touch './tmp/src/sub/bar'
@@ -58,7 +58,7 @@ function test_d {
 }
 
 #@test
-function test_e {
+function test_find_test_functions_in_file {
   tests=$(find_test_functions file_with_tests.txt)
   equal "${tests}" "testname1 testname5" "should find two valid test declarations"
 }

@@ -15,35 +15,21 @@ create_target_folder $cha_outputdir
 # copy_src "$cha_srcdir" "${cha_outputdir}/${cha_srcdir}" 
 copy_src "$cha_testdir" "${cha_outputdir}" 
 
+echo "chadobash 0.0.1"
+echo ""
 for cha_testfile in $(find_test_files $cha_outputdir)
 do
-  source $cha_testfile
-  echo "-------------------------------------"
-  echo "START TESTFILE: $cha_testfile"
-  echo "-------------------------------------"
-  for test_func in $(find_test_functions $cha_testfile)
-  do
-    numberOfTests+=1
-    (
-      cd ${cha_outputdir}
-      echo " o $test_func"
-      # before methods?
-      # assert lib reinladen
-      # try catch
-      eval "$test_func"
-# ergebnis holen???
-      # after methods?
-      # ergebnis speichern
-      echo ""
-      echo "" 
-    )
-  done
-  echo "END TESTFILE: $cha_testfile"
-  echo "" 
-  echo "" 
+  execute_tests $cha_testfile
 done
 
 echo "================================================"
 echo -e "Total: $numberOfTests \t success: $success \t error: $error"
 echo "================================================"
+
+if (( error > 0))
+then 
+  exit 1
+else
+  exit 0
+fi
 # wenn error > 0 exit 1
