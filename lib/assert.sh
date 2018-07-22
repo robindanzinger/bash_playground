@@ -33,7 +33,7 @@ function assert {
 }
 
 function throw_error {
-  echo "ERROR"
+  echo "assertion failed"
   echo "$1"
-  exit 1
+  exit 42
 }

@@ -48,6 +48,7 @@ function execute_tests {
     then
       success+=1
     else
+      echo "ERROR Return Code is: $cha_testresult" 
       error+=1
     fi
   done
@@ -61,7 +62,7 @@ function execute_tests {
 }
 
 function do_execute_test {
-  typeset -i cha_testresul
+  typeset -i cha_testresult
   (
     execute_before $2
   )
@@ -80,10 +81,6 @@ function do_execute_test {
 
 function execute_before {
   execute_annotated_funcs $1 '#@before'
-#  for before_func in $(find_annotated_function $1 '#@before')
-#  do
-#    eval "$before_func"
-#  done
 }
 
 function execute_after {
