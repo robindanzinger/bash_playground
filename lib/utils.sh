@@ -72,24 +72,28 @@ function do_execute_test {
   )
   cha_testresult+=$?
   (
-    execute_after
+    execute_after $2
   )
   cha_testresult+=$?
   return $cha_testresult
 }
 
 function execute_before {
-  for before_func in $(find_annotated_function $1 '#@before')
-  do
-    eval "$before_func"
-  done
+  execute_annotated_funcs $1 '#@before'
+#  for before_func in $(find_annotated_function $1 '#@before')
+#  do
+#    eval "$before_func"
+#  done
 }
 
 function execute_after {
-  return 0
+  execute_annotated_funcs $1 '#@after'
 }
 
-function execute_funcs {
-  return 0
+function execute_annotated_funcs {
+  for annotated_func in $(find_annotated_function $1 $2)
+  do
+    eval "$annotated_func"
+  done
 }
 
