@@ -6,15 +6,17 @@ function test_execute_before {
   mkdir './tmp'
   touch './tmp/before'
   
-  let function_called=0
+  typeset -i function_called
+  function_called=0
 
   echo '                      
-    #@before                 
-    function setup {          
-      $function_called+=1     
-    }                        
-  '  > "./tmp/before"
+#''@before                 
+function setup {          
+  function_called+=1
+}                        
+'  > "./tmp/before"
 
+  source './tmp/before'
   execute_before './tmp/before'
 
   assert_equal "1" "$function_called" "function wasn't called"

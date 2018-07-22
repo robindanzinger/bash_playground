@@ -79,8 +79,10 @@ function do_execute_test {
 }
 
 function execute_before {
-  find_annotated_function $1 '#@before'
-  return 0
+  for before_func in $(find_annotated_function $1 '#@before')
+  do
+    eval "$before_func"
+  done
 }
 
 function execute_after {
