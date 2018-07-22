@@ -17,20 +17,22 @@ copy_src "$cha_testdir" "${cha_outputdir}"
 for cha_testfile in $(find_test_files $cha_outputdir)
 do
   source $cha_testfile
-    for func in $(find_test_functions $cha_testfile)
-    do
+  for func in $(find_test_functions $cha_testfile)
+  do
+    (
 
-     # execute in own process / relative paths are wrong
-     echo "execute func $func of file $cha_testfile"
-     # before methods?
-     # subshell öffnen
-     # assert lib reinladen
-     # try catch
-     eval "$func"
-     # after methods?
-     # ergebnis speichern
-    done 
-
+      cd ${cha_outputdir}
+      # execute in own process / relative paths are wrong
+      echo "execute func $func of file $cha_testfile"
+      # before methods?
+      # subshell öffnen
+      # assert lib reinladen
+      # try catch
+      eval "$func"
+      # after methods?
+      # ergebnis speichern
+    )
+  done 
 done
 
 # report erzeugen
