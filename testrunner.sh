@@ -24,10 +24,15 @@ do
   execute_tests $cha_testfile
 done
 
+if (( error > 0 ))
+then
+  echo "$(tput setaf 1)"
+else
+  echo "$(tput setaf 2)"
+fi
 echo "================================================"
 echo -e "Total: $numberOfTests \t success: $success \t error: $error"
 echo "================================================"
-
 if (( error > 0))
 then 
   exit 1
