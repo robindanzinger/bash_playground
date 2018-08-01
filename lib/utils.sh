@@ -40,7 +40,7 @@ function execute_tests {
   for test_func in $(find_test_functions $cha_testfile)
   do
     logfile="${logfilebase}/${test_func}.log"
-    touch logfile
+    touch $logfile
     echo " o $test_func"
     numberOfTests+=1
     (

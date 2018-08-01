@@ -1,9 +1,15 @@
 source ./lib/utils.sh
 source ./lib/assert.sh
 
-#@after
-
 #@before
+function setup_tmp_folder {
+  clean_folder './tmp'
+}
+
+#@after
+function clean_tmp_folder {
+  clean_folder './tmp'
+}
 
 #@test
 function test_find_test_files {
@@ -14,14 +20,12 @@ function test_find_test_files {
   cha_testfiles=$(find_test_files './tmp')
   
   assert_equal "${cha_testfiles}" "./tmp/file_a_test.sh ./tmp/subfolder/file_c_test.sh" "should find two files"
-  
-  clean_folder './tmp'
 }
 
 #@test
 function test_create_target_folder {
-  create_target_folder './target/tmp'
-  assert_folder_exists './target/tmp'
+  create_target_folder './tmp/target/foo'
+  assert_folder_exists './tmp/target/foo'
 }
 
 #@test
@@ -53,8 +57,6 @@ function test_copy_src {
 
   assert_file_exists './tmp/target/foo'
   assert_file_exists './tmp/target/sub/bar'
-
-  clean_folder './tmp'
 }
 
 #@test
@@ -73,3 +75,5 @@ function can_redirect_to_file {
 
   assert_cmd "grep 'hallo welt' ./tmp/log" "file doesn't contain string 'hallo welt'"
 }
+
+

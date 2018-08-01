@@ -55,7 +55,7 @@ function print {
   execute_tests ./tmp/logtest
  
   logfile="./logs/tmp/logtest/print.log"
-  assert_file_exists logfile
+  assert_file_exists $logfile
   count=0
   while read line
   do 
