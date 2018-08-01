@@ -33,6 +33,7 @@ fi
 echo "================================================"
 echo -e "Total: $numberOfTests \t success: $success \t error: $error"
 echo "================================================"
+echo "$(tput setaf 7)"
 if (( error > 0))
 then 
   exit 1

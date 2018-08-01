@@ -32,6 +32,15 @@ function assert {
   fi
 }
 
+function assert_cmd {
+  if (eval $1)
+  then 
+    :
+  else
+    throw_error $2
+  fi
+}
+
 function throw_error {
   echo "assertion failed"
   echo "$1"

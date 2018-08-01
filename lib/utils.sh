@@ -34,13 +34,17 @@ function execute_tests {
 ### run tests
   cha_testfile=$1
   source $cha_testfile
+  mkdir -p "./logs/${cha_testfile}/"
+  logfilebase="./logs/${cha_testfile}/"
 
   for test_func in $(find_test_functions $cha_testfile)
   do
+    logfile="${logfilebase}/${test_func}.log"
+    touch logfile
     echo " o $test_func"
     numberOfTests+=1
     (
-      do_execute_test $test_func $cha_testfile
+      do_execute_test $test_func $cha_testfile $logfile
       return $?
     )
     cha_testresult=$?
@@ -62,18 +66,21 @@ function execute_tests {
 }
 
 function do_execute_test {
+  test_func=$1
+  cha_testfile=$2
+  logfile=$3
   typeset -i cha_testresult
   (
-    execute_before $2
+    execute_before $cha_testfile 
   )
   cha_testresult=$?
   # assert lib reinladen
   (
     eval "$test_func"
-  )
+  ) > $logfile
   cha_testresult+=$?
   (
-    execute_after $2
+    execute_after $cha_testfile
   )
   cha_testresult+=$?
   return $cha_testresult

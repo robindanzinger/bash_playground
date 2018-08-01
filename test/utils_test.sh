@@ -63,4 +63,13 @@ function test_find_test_functions_in_file {
   assert_equal "${tests}" "testname1 testname5" "should find two valid test declarations"
 }
 
+#@test
+function can_redirect_to_file {
+  mkdir -p './tmp'
+  touch './tmp/log'
+  (
+    echo 'hallo welt'
+  ) > ./tmp/log
 
+  assert_cmd "grep 'hallo welt' ./tmp/log" "file doesn't contain string 'hallo welt'"
+}

@@ -3,7 +3,6 @@ source ./lib/assert.sh
 
 #@test
 function test_execute_before {
-  mkdir './tmp'
   touch './tmp/before'
   
   typeset -i function_called
@@ -24,7 +23,6 @@ function mock_setup {
 
 #@test
 function test_execute_after {
-  mkdir './tmp'
   touch './tmp/after'
   
   typeset -i function_called
@@ -43,9 +41,38 @@ function mock_teardown {
   assert_equal "1" "$function_called" "function wasn't called"
 }
 
+#@test
+function std_out_will_be_redirected_to_tmp_log_file {
+  touch './tmp/logtest'
+  echo '
+#''@test
+function print {
+  echo "hallo welt"
+  echo "Line 2"
+  echo "END"
+}
+  ' > ./tmp/logtest
+  execute_tests ./tmp/logtest
+ 
+  logfile="./logs/tmp/logtest/print.log"
+  assert_file_exists logfile
+  count=0
+  while read line
+  do 
+    lines[$count]=$line
+    echo $line
+    let count++
+  done < $logfile
+
+  assert_equal "hallo welt" "${lines[0]}" 
+  assert_equal "Line 2" "${lines[1]}"
+  assert_equal "END" "${lines[2]}" 
+}
+
 #@before
 function setup {
-  clean_folder './tmp' 
+  clean_folder './tmp'
+  mkdir './tmp' 
 }
 
 #@after
