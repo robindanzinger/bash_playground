@@ -39,12 +39,12 @@ function execute_tests {
 
   for test_func in $(find_test_functions $cha_testfile)
   do
-    logfile="${logfilebase}/${test_func}.log"
-    touch $logfile
+    cha_logfile="${logfilebase}/${test_func}.log"
+    touch $cha_logfile
     echo " o $test_func"
     numberOfTests+=1
     (
-      do_execute_test $test_func $cha_testfile $logfile
+      do_execute_test $test_func $cha_testfile $cha_logfile
       return $?
     )
     cha_testresult=$?
@@ -68,7 +68,7 @@ function execute_tests {
 function do_execute_test {
   test_func=$1
   cha_testfile=$2
-  logfile=$3
+  cha_logfile=$3
   typeset -i cha_testresult
   (
     execute_before $cha_testfile 
@@ -77,7 +77,7 @@ function do_execute_test {
   # assert lib reinladen
   (
     eval "$test_func"
-  ) > $logfile
+  ) > $cha_logfile
   cha_testresult+=$?
   (
     execute_after $cha_testfile

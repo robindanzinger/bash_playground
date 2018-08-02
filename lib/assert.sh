@@ -34,9 +34,16 @@ function assert {
 
 function assert_cmd {
   if (eval $1)
-  then 
+  then
     :
   else
+    throw_error $2
+  fi
+}
+
+function assert_cmd_not {
+  if (eval $1)
+  then
     throw_error $2
   fi
 }
@@ -45,4 +52,23 @@ function throw_error {
   echo "assertion failed"
   echo "$1"
   exit 42
+}
+
+# $1 pattern $2 mode [not]
+function assert_log_contains {
+  cmd="grep $1 $cha_logfile"
+  if [ $2 ] && [[ "$2" == "not" ]]
+  then 
+    assert_cmd_not "$cmd" "log contains $1, but wasn't expected"
+  else
+    assert_cmd "$cmd" "log doesn't contain $1, but was expected"
+  fi
+}
+
+function fails {
+  echo "fails cmd" $1
+  if ($1)
+  then 
+    throw_error "should fail, but passed"
+  fi
 }
