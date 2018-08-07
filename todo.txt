@@ -1,0 +1,3 @@
+o on error log logfile
+o fail when target test folder can't be cleaned up
+

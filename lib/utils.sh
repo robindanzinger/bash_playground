@@ -50,9 +50,12 @@ function execute_tests {
     cha_testresult=$?
     if (( $cha_testresult == 0 ))
     then
+      update_console "v" "$test_func" 2
       success+=1
     else
-      echo "ERROR Return Code is: $cha_testresult" 
+      update_console "x" "$test_func" 1
+      echo "ERROR Return Code is: $cha_testresult"
+#      cat $cha_testresult 
       error+=1
     fi
   done
@@ -63,6 +66,13 @@ function execute_tests {
   echo " -------------------------------------"
   echo "" 
   echo "" 
+}
+
+function update_console {
+  tput cuu1
+  tput dl1
+  tput il1
+  echo "$(tput setaf $3) $1 $(tput setaf 7) $2"
 }
 
 function do_execute_test {

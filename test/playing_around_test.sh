@@ -23,3 +23,45 @@ function func_b {
   var="func_b"
   echo "inner_after $var"
 }
+
+#@test
+function cat_array_read {
+  mkdir -p './tmp'
+  file="./tmp/foo"
+  touch $file
+  echo "
+    Line ONE
+    Two
+    3 4 5 6" > $file
+
+  BACKIFS=$IFS
+  IFS=$'\n'
+  array=($(cat $file))
+
+  echo USE IFS ONLY LINEBREAKS
+  counter=0
+  for line in ${array[*]}
+  do
+    echo "LINE NO ${counter}: $line"
+    counter=$((counter+1))
+  done
+
+  IFS=$BACKIFS 
+  echo IFS resetted
+  counter=0
+  for line in ${array[*]}
+  do
+    echo "LINE NO ${counter}: $line"
+    counter=$((counter+1))
+  done
+
+  echo DIRECT ACCESS
+  echo ${array[0]}
+  echo ${array[1]}
+  echo ${array[2]}
+}
+
+#@after
+function clean_tmp_folder {
+  clean_folder ./tmp
+}

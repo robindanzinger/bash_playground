@@ -1,6 +1,17 @@
 source ./lib/utils.sh
 source ./lib/assert.sh
 
+#@before
+function setup {
+  clean_folder './tmp'
+  mkdir './tmp' 
+}
+
+#@after
+function teardown {
+  clean_folder './tmp' 
+}
+
 #@test
 function test_execute_before {
   touch './tmp/before'
@@ -69,13 +80,3 @@ function print {
   assert_equal "END" "${lines[2]}" 
 }
 
-#@before
-function setup {
-  clean_folder './tmp'
-  mkdir './tmp' 
-}
-
-#@after
-function teardown {
-  clean_folder './tmp' 
-}

@@ -3,7 +3,7 @@ source ./lib/utils.sh
 
 #@test
 function should_be_equal {
- assert_equal '1' '1' '1 ist 1'
+ assert_equal '1' '2' '1 ist 1'
 }
 
 #@test
