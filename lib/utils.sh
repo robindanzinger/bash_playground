@@ -18,10 +18,10 @@ function copy_src {
 }
 
 function find_test_functions {
-  echo $(grep -A1 '#@test' $1 | grep 'function .* {' | cut -d ' ' -f 2)
+  echo $(find_annotated_functions $1 '#@test')
 }
 
-function find_annotated_function {
+function find_annotated_functions {
   echo $(grep -A1 $2 $1 | grep 'function .* {' | cut -d ' ' -f 2)
 }
 
@@ -86,7 +86,7 @@ function do_execute_test {
   cha_testresult=$?
   # assert lib reinladen
   (
-    eval "$test_func"
+    $test_func
   ) > $cha_logfile
   cha_testresult+=$?
   (
@@ -97,17 +97,17 @@ function do_execute_test {
 }
 
 function execute_before {
-  execute_annotated_funcs $1 '#@before'
+  execute_annotated_functions $1 '#@before'
 }
 
 function execute_after {
-  execute_annotated_funcs $1 '#@after'
+  execute_annotated_functions $1 '#@after'
 }
 
-function execute_annotated_funcs {
-  for annotated_func in $(find_annotated_function $1 $2)
+function execute_annotated_functions {
+  for annotated_func in $(find_annotated_functions $1 $2)
   do
-    eval "$annotated_func"
+    $annotated_func
   done
 }
 
